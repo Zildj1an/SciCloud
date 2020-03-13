@@ -19,12 +19,16 @@ class Example extends React.Component {
   }
 
   handleChange(event) {
+    // We change the state by calling setState with the desired updates
     this.setState({text: event.target.value});
   }
 
+  // All the component markup goes inside render(). You can write plain HTML,
+  // but note that it is still a javascript function.
   render() {
     return (
       <div>
+        {/* use className instead of class for CSS classes */}
         <div className='col-4'></div>
         <div className='col-4'>
           <h1>Upper case</h1>
@@ -33,6 +37,7 @@ class Example extends React.Component {
               <input className='in' type='text'
                 placeholder='Write your text!' value={this.state.text}
                 onChange={this.handleChange} />
+                {/* Everything between brackets is an arbitrary JavaScript expression */}
             </div>
             <div className='col-6'>
               <p className='txt'>{this.state.text.toUpperCase()}</p>
