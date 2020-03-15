@@ -58,7 +58,7 @@ const Api = {
           .catch(reject)
       })
   },
-  
+
   // Attemp to register
   // Usage: register(params).then(success, failure)
   // success will receive an authentication token
@@ -84,7 +84,7 @@ const Api = {
           .catch(reject)
       })
   },
-  
+
   // Fetch profile info.
   // Params must contain a valid authentication token.
   // success receives a ProfileInfo-like object
@@ -107,7 +107,7 @@ const Api = {
           )
           .catch(reject)
       })
-  },
+  }
 
 }
 

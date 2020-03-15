@@ -69,7 +69,7 @@ class Register extends React.Component {
       // Appear transition: see CSS classes register-form and register-form-enter-done.
       <CSSTransition appear in={this.props.in} classNames='register-form' timeout={{ enter: 0, exit: 0 }}>
         <form className='register-form' onSubmit={this.handleSubmit}>
-          {/* The input id must be the same as the value parameter*/}
+          {/* The input id must be the same as the value parameter */}
           <input type='text' name='name' className='input-field' placeholder='First name' required value={this.state.params.name} onChange={this.handleChange} />
           <input type='text' name='surname1' className='input-field' placeholder='Last name' required value={this.state.params.surname1} onChange={this.handleChange} />
           <input type='text' name='surname2' className='input-field' placeholder='Last name 2' required value={this.state.params.surname2} onChange={this.handleChange} />

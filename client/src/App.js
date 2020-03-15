@@ -15,7 +15,8 @@ class App extends React.Component {
     return (
       <Router>
         <Route path='/profile' component={Profile} />
-        <Route path='/' component={Home} />
+        <Route path='/login' component={Home} />
+        <Route path='/register' component={Home} />
       </Router>
     )
   }

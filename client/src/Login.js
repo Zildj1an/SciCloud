@@ -38,7 +38,6 @@ class Login extends React.Component {
     this.props.history.push('/profile')
   }
 
-
   render () {
     return (
       <CSSTransition appear in={this.props.in} classNames='login-form' timeout={{ enter: 0, exit: 0 }}>
