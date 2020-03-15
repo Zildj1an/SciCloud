@@ -27,7 +27,7 @@ class Login extends React.Component {
   // Updates the state and runs validation
   handleChange (event) {
     const params = {}
-    params[event.target.id] = event.target.value
+    params[event.target.name] = event.target.value
     this.setState({ params: params })
     // TODO validate
   }
@@ -41,13 +41,13 @@ class Login extends React.Component {
 
   render () {
     return (
-      <CSSTransition appear in={this.props.in} classNames='login-form'>
-        <form id='login' class='login-form' onSubmit={this.handleSubmit} timeout={{ enter: 0, exit: 0 }}>
-          <input type='email' id='email' class='input-field' placeholder='Email' required value={this.state.params.email} onChange={this.handleChange} />
-          <input type='password' id='password' class='input-field' placeholder='Password' required value={this.state.params.password} onChange={this.handleChange} />
-          <input type='checkbox' class='check-box' /><font color='white'>Remember password</font>
+      <CSSTransition appear in={this.props.in} classNames='login-form' timeout={{ enter: 0, exit: 0 }}>
+        <form id='login' className='login-form' onSubmit={this.handleSubmit}>
+          <input type='email' name='email' className='input-field' placeholder='Email' required value={this.state.params.email} onChange={this.handleChange} />
+          <input type='password' name='password' className='input-field' placeholder='Password' required value={this.state.params.password} onChange={this.handleChange} />
+          <input type='checkbox' className='check-box' /><font color='white'>Remember password</font>
           <button type='submit' id='signin-btn'>Sign in</button>
-          <p class='message'>Don't have an account? <Link to='/register'>Register</Link> </p>
+          <p className='message'>Don't have an account? <Link to='/register'>Register</Link> </p>
         </form>
       </CSSTransition>
     )
