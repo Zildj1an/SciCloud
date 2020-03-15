@@ -34,15 +34,15 @@ class Login extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault()
+    // TODO api call
     this.props.history.push('/profile')
-    console.log('Nav')
   }
 
 
   render () {
     return (
       <CSSTransition appear in={this.props.in} classNames='login-form'>
-        <form id='login' class='login-form' onSubmit={this.handleSubmit}>
+        <form id='login' class='login-form' onSubmit={this.handleSubmit} timeout={{ enter: 0, exit: 0 }}>
           <input type='email' id='email' class='input-field' placeholder='Email' required value={this.state.params.email} onChange={this.handleChange} />
           <input type='password' id='password' class='input-field' placeholder='Password' required value={this.state.params.password} onChange={this.handleChange} />
           <input type='checkbox' class='check-box' /><font color='white'>Remember password</font>

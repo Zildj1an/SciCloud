@@ -3,7 +3,7 @@
  * Contains data structures and methods.
  */
 
-const API = 'https://localhost:5000'
+const API = 'https://scicloud-apirest.herokuapp.com/api'
 
 const Api = {
   // Param struct for the login call
@@ -16,21 +16,22 @@ const Api = {
   RegisterParams: {
     email: '',
     password: '',
-    date: new Date(),
-    tel: '',
-    firstName: '',
-    lastName1: '',
-    lastname2: ''
+    birthdate: new Date(),
+    phone: '',
+    name: '',
+    surname1: '',
+    surname2: ''
   },
 
   // Return struct for the profile call
   ProfileInfo: {
     email: '',
-    date: new Date(),
-    tel: '',
-    firstName: '',
-    lastName1: '',
-    lastname2: ''
+    password: '',
+    birthdate: new Date(),
+    phone: '',
+    name: '',
+    surname1: '',
+    surname2: ''
   },
 
   // Attemp to log in
@@ -65,7 +66,8 @@ const Api = {
   register: (params) => {
     return new Promise(
       (resolve, reject) => {
-        fetch(API + '/register', {
+        console.log(params)
+        fetch(API + '/users', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -77,7 +79,7 @@ const Api = {
         })
           .then(res => res.json())
           .then((data) =>
-            data.success === true ? resolve(data.token) : reject(data.error)
+            data.message === 'New contact created!' ? resolve(data) : reject(data)
           )
           .catch(reject)
       })
