@@ -140,7 +140,7 @@ class Register extends React.Component {
             required value={cPw} onChange={this.handleChange}
           />
           <input
-            type='number' id='phone' className={`input-field ${ph ? '' : 'empty'}`}
+            type='number' name='phone' className={`input-field ${ph ? '' : 'empty'}`}
             placeholder='Phone number' value={ph}
             onChange={this.handleChange}
           />
