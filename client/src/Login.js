@@ -26,27 +26,53 @@ class Login extends React.Component {
   // Runs whenever a change is made to the form values
   // Updates the state and runs validation
   handleChange (event) {
-    const params = {}
+    const params = this.state.params
     params[event.target.name] = event.target.value
     this.setState({ params: params })
-    // TODO validate
   }
 
   handleSubmit (event) {
+    // This prevents the submit button from reloading the page
     event.preventDefault()
-    // TODO api call
-    this.props.history.push('/profile')
+
+    // Call login function
+    Api.login(this.state.params)
+      .then(
+        // Accept: redirect to '/profile' with given information
+        (info) => {
+          Api.ProfileInformation = info
+          Api.isAuthenticated = true
+          this.props.history.push('/profile')
+        },
+        // Reject
+        console.log)
+      .catch(console.log)
   }
 
   render () {
+    const em = this.state.params.email
+    const pw = this.state.params.password
     return (
-      <CSSTransition appear in={this.props.in} classNames='login-form' timeout={{ enter: 0, exit: 0 }}>
+      <CSSTransition
+        appear in={this.props.in} classNames='login-form'
+        timeout={{ enter: 0, exit: 0 }}
+      >
         <form id='login' className='login-form' onSubmit={this.handleSubmit}>
-          <input type='email' name='email' className='input-field' placeholder='Email' required value={this.state.params.email} onChange={this.handleChange} />
-          <input type='password' name='password' className='input-field' placeholder='Password' required value={this.state.params.password} onChange={this.handleChange} />
-          <input type='checkbox' className='check-box' /><font color='white'>Remember password</font>
+          <input
+            type='email' name='email' className={`input-field ${em ? '' : 'empty'}`}
+            placeholder='Email' required value={em} onChange={this.handleChange}
+          />
+          <input
+            type='password' name='password'
+            className={`input-field ${pw ? '' : 'empty'}`}
+            placeholder='Password' required value={pw} onChange={this.handleChange}
+          />
+          <input type='checkbox' className='check-box' />
+          <font color='white'>Remember password</font>
           <button type='submit' id='signin-btn'>Sign in</button>
-          <p className='message'>Don't have an account? <Link to='/register'>Register</Link> </p>
+          <p className='message'>
+            Don't have an account? <Link to='/register'>Register</Link>
+          </p>
         </form>
       </CSSTransition>
     )

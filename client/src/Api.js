@@ -6,6 +6,9 @@
 const API = 'https://scicloud-apirest.herokuapp.com/api'
 
 const Api = {
+  // Is the user authenticated?
+  isAuthenticated: false,
+
   // Param struct for the login call
   LoginParams: {
     email: '',
@@ -16,7 +19,7 @@ const Api = {
   RegisterParams: {
     email: '',
     password: '',
-    birthdate: new Date(),
+    birthdate: '',
     phone: '',
     name: '',
     surname1: '',
@@ -27,7 +30,7 @@ const Api = {
   ProfileInfo: {
     email: '',
     password: '',
-    birthdate: new Date(),
+    birthdate: '',
     phone: '',
     name: '',
     surname1: '',
@@ -41,7 +44,7 @@ const Api = {
   login: (params) => {
     return new Promise(
       (resolve, reject) => {
-        fetch(API + '/login', {
+        window.fetch(API + '/users/login', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -53,7 +56,7 @@ const Api = {
         })
           .then(res => res.json())
           .then((data) =>
-            data.success === true ? resolve(data.token) : reject(data.error)
+            data.message === 'Usuario logged successfully' ? resolve(data.data[0]) : reject(data)
           )
           .catch(reject)
       })
@@ -67,7 +70,7 @@ const Api = {
     return new Promise(
       (resolve, reject) => {
         console.log(params)
-        fetch(API + '/users', {
+        window.fetch(API + '/users', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -79,7 +82,7 @@ const Api = {
         })
           .then(res => res.json())
           .then((data) =>
-            data.message === 'New contact created!' ? resolve(data) : reject(data)
+            data.message === 'New contact cerated!' ? resolve(data) : reject(data)
           )
           .catch(reject)
       })
@@ -91,7 +94,7 @@ const Api = {
   profile: (params) => {
     return new Promise(
       (resolve, reject) => {
-        fetch(API + '/profile', {
+        window.fetch(API + '/profile', {
           method: 'POST',
           headers: {
             Accept: 'application/json',

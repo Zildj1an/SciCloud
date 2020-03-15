@@ -12,6 +12,7 @@
 	padding: 15px;
 	box-sizing: border-box;
 	font-size: 14px;
+	box-shadow: none;
 }
 
 .form button{
@@ -63,4 +64,12 @@
 	opacity: 1;
 	max-height: 5000px;
 	transition: opacity 500ms, max-height 2000ms;
+}
+
+.form input.input-error,.form input:invalid {
+	border: 2px solid red;
+}
+
+.form input.empty {
+	border: none;
 }

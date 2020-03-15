@@ -5,22 +5,36 @@ body{
 	background-position: center;
 }
 
-.title{
-    margin: 0 38% 0;
+.title {
 	top: 8%;                      
     position: absolute;   
-    transform: translate(0, -50%);
+	left: 50%;
+    transform: translate(-50%, 0);
 	text-align: center;
+	color: white;
+	font-weight: bold;
+	background: rgba(7, 40, 195, 0.7);
+	padding: 15px;
+}
+
+.prof {
+	position: relative;
+	margin-top: 10vh;
 }
 
 .out{
+	box-sizing: border-box;
+	background: rgba(7, 40, 195, 0.7);
 	font-family: "Roboto", sans-serif;
-    margin: 0 40% 0;
-	width: 330px;
+    margin-top: 25vh;
+	padding: 1%;
+	width: 430px;
     position: absolute;   
-    top: 75%;                      
-    transform: translate(0, -50%);
+	left: 50%;
+    transform: translate(-50%, 0);
 	text-align: center;
+	color: white;
+	font-weight: bold;
 }
 
 .out button{
