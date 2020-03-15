@@ -69,7 +69,6 @@ const Api = {
   register: (params) => {
     return new Promise(
       (resolve, reject) => {
-        console.log(params)
         window.fetch(API + '/users', {
           method: 'POST',
           headers: {
@@ -82,7 +81,7 @@ const Api = {
         })
           .then(res => res.json())
           .then((data) =>
-            data.message === 'New contact cerated!' ? resolve(data) : reject(data)
+            data.message === 'New contact created!' ? resolve(data) : reject(data)
           )
           .catch(reject)
       })

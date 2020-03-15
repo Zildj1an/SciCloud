@@ -69,7 +69,7 @@ class Register extends React.Component {
     Api.register(params)
       .then(
         // Accept: redirect to '/login'
-        () => this.props.history.push('/login'),
+        (data) => this.props.history.push('/login'),
         // Reject
         console.log)
       .catch(console.log)
