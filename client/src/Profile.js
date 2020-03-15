@@ -17,7 +17,6 @@ class Profile extends React.Component {
 
   handleClick (e) {
     Api.isAuthenticated = false
-    e.preventDefault()
   }
 
   render () {
