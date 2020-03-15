@@ -1,3 +1,37 @@
-/*
- * Write your CSS here
- */
+body{
+	background-image: linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1)),url(welcome.jpg);
+	height: 100vh;
+	background-size: cover;
+	background-position: center;
+}
+
+.title{
+    margin: 0 38% 0;
+	top: 8%;                      
+    position: absolute;   
+    transform: translate(0, -50%);
+	text-align: center;
+}
+
+.out{
+	font-family: "Roboto", sans-serif;
+    margin: 0 40% 0;
+	width: 330px;
+    position: absolute;   
+    top: 75%;                      
+    transform: translate(0, -50%);
+	text-align: center;
+}
+
+.out button{
+	margin: 40px auto 0;
+	font-family: "Roboto", sans-serif;
+	text-transform: uppercase;
+	outline: 0;
+	background: #A9A9A9;
+	width: 60%;
+	border: 0;
+	padding:15px;
+	color: #FFFFFF;
+	cursor: pointer;
+}
