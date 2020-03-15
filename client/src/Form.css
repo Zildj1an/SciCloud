@@ -1,0 +1,66 @@
+/*
+ * Write your CSS here
+ */
+
+.form input[type=text], input[type=email], input[type=password], input[type=number], input[type=date]{
+	font-family: "Roboto", sans-serif;
+	outline: 1;
+	background: #f2f2f2;
+	width: 100%;
+	border: 0;
+	margin: 0 0 15px;
+	padding: 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+}
+
+.form button{
+	font-family: "Roboto", sans-serif;
+	text-transform: uppercase;
+	outline: 0;
+	background: #A9A9A9;
+	width: 100%;
+	border: 0;
+	padding:15px;
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+.form button:hover,.form button:active{
+	background: #A9A9A9;
+}
+
+.form .message{
+	margin: 15px 0 0;
+	font-size: 12px;
+}
+
+.form .message a{
+	color: #A9A9A9;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.login-form {
+	overflow:hidden;
+	opacity: 0;
+	max-height: 0px;
+}
+
+.login-form.login-form-enter-done {
+	opacity: 1;
+	max-height: 5000px;
+	transition: opacity 500ms, max-height 2000ms;
+}
+
+.register-form {
+	overflow:hidden;
+	opacity: 0;
+	max-height: 0px;
+}
+
+.register-form.register-form-enter-done {
+	opacity: 1;
+	max-height: 5000px;
+	transition: opacity 500ms, max-height 2000ms;
+}
