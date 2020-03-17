@@ -38,6 +38,7 @@ class Register extends React.Component {
     this.validateInputs(params)
   }
 
+  // Check input constraints and update valid conditions accordingly
   validateInputs (params) {
     const passMatch = params.password === params.cPassword
     const passVal = params.password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/)
@@ -57,7 +58,9 @@ class Register extends React.Component {
     // This prevents the submit button from reloading the page
     event.preventDefault()
 
+
     if (!this.state.formValid) {
+      window.alert('Invalid input data, please enter valid information and try again.')
       return
     }
 
@@ -69,9 +72,9 @@ class Register extends React.Component {
     Api.register(params)
       .then(
         // Accept: redirect to '/login'
-        (data) => this.props.history.push('/login'),
-        // Reject
-        console.log)
+        (data) => { window.alert('Registration successful, you can now log in,'); this.props.history.push('/login') },
+        // Reject: print message
+        ({ message: err, ...rest }) => { window.alert(err); console.log(err) })
       .catch(console.log)
   }
 

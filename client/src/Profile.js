@@ -20,7 +20,6 @@ class Profile extends React.Component {
   }
 
   render () {
-    console.log(this.state)
     return (
       <div className='prof'>
         <div className='title'>
@@ -65,7 +64,7 @@ class Profile extends React.Component {
               </table>
             ) : (
               <p style={{ color: 'red' }}>
-              An error occurred while retrieving profile information.
+              An error occurred while retrieving profile information. Please try again.
               </p>
             )}
             <Link to='/'>

@@ -44,8 +44,11 @@ class Login extends React.Component {
           Api.isAuthenticated = true
           this.props.history.push('/profile')
         },
-        // Reject
-        console.log)
+        // Reject: print message
+        ({ message: err, ...rest }) => {
+          window.alert('Could not log in: ' + err)
+          console.log(err)
+        })
       .catch(console.log)
   }
 
