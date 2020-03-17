@@ -16,7 +16,7 @@ class Login extends React.Component {
     super(props)
 
     // Component state: the form values will be stored here
-    this.state = { params: Api.LoginParams }
+    this.state = { params: this.props.global.LoginParams }
 
     // Bind 'this' to the component, otherwise 'this' is undefined inside class methods
     this.handleChange = this.handleChange.bind(this)
@@ -28,7 +28,7 @@ class Login extends React.Component {
   handleChange (event) {
     const params = this.state.params
     params[event.target.name] = event.target.value
-    this.setState({ params: params })
+    this.props.setGlobal({ params: params })
   }
 
   handleSubmit (event) {
@@ -40,8 +40,10 @@ class Login extends React.Component {
       .then(
         // Accept: redirect to '/profile' with given information
         (info) => {
-          Api.ProfileInformation = info
-          Api.isAuthenticated = true
+          this.props.setGlobal({
+            ProfileInformation: info,
+            isAuthenticated: true
+          })
           this.props.history.push('/profile')
         },
         // Reject: print message

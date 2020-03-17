@@ -24,10 +24,10 @@ class Home extends React.Component {
           <div className='form'>
             <Switch>
               <Route path='/login'>
-                <Login in />
+                <Login in global={this.props.global} setGlobal={this.props.setGlobal} />
               </Route>
               <Route path='/register'>
-                <Register in />
+                <Register in global={this.props.global} setGlobal={this.props.setGlobal} />
               </Route>
               <Route exact path='/'>
                 <Redirect

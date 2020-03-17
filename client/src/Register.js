@@ -17,7 +17,7 @@ class Register extends React.Component {
 
     // Component state: the form values will be stored here
     this.state = {
-      params: Api.RegisterParams,
+      params: this.props.global.RegisterParams,
       formValid: false,
       passwordsMatch: false,
       passwordValid: false,
@@ -34,7 +34,7 @@ class Register extends React.Component {
   handleChange (event) {
     const params = this.state.params
     params[event.target.name] = event.target.value
-    this.setState({ params: params })
+    this.props.setGlobal({ params: params })
     this.validateInputs(params)
   }
 
@@ -57,7 +57,6 @@ class Register extends React.Component {
   handleSubmit (event) {
     // This prevents the submit button from reloading the page
     event.preventDefault()
-
 
     if (!this.state.formValid) {
       window.alert('Invalid input data, please enter valid information and try again.')
