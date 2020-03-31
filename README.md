@@ -1,2 +1,0 @@
-## SciCloud
-Our app.
