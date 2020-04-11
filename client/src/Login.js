@@ -7,7 +7,8 @@ import {
   StatusBar ,
   TouchableOpacity,
   ActivityIndicator,
-  Alert
+  Alert,
+  Dimensions
 } from 'react-native';
 import {connect} from "react-redux";
 import {compose} from "redux";
@@ -17,50 +18,44 @@ import Logo from './Logo.js';
 import {Actions} from 'react-native-router-flux';
 
 
+const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container : {
+    paddingTop: 0.05*height,
     backgroundColor:'#3399ff',
     flex: 1,
     alignItems:'center',
-    justifyContent :'center'
+  },
+  inputLabel: {
+    width: 0.8*width,
+    marginHorizontal:0.1*width,
+    fontSize:20
   },
   textInputCont: {
-    width:300,
+    width: 0.8*width,
     backgroundColor:'rgba(255, 255,255,0.2)',
-    borderRadius: 25,
-    paddingHorizontal:16,
-    fontSize:16,
+    borderRadius: 10,
+    paddingVertical: 4,
+    fontSize: 18,
     color:'#ffffff',
-    marginVertical: 10
-  },
-  signupTextCont : {
-  	flexGrow: 1,
-    alignItems:'flex-end',
-    justifyContent :'center',
-    paddingVertical:16,
-    flexDirection:'row'
-  },
-  signupText: {
-  	color:'rgba(255,255,255,0.6)',
-  	fontSize:16
-  },
-  signupButton: {
-  	color:'#ffffff',
-  	fontSize:16,
-  	fontWeight:'500'
+    marginBottom: 10
   },
   button: {
-    width:300,
+    width: 0.33*width,
     backgroundColor:'#1c313a',
-    borderRadius: 25,
-    marginVertical: 10,
-    paddingVertical: 13
+    borderRadius: 10,
+    marginVertical: 0.08*height,
+    marginHorizontal: 0.33*width,
+    paddingVertical: 10
   },
   buttonText: {
-    fontSize:16,
+    fontSize:13,
     fontWeight:'500',
     color:'#ffffff',
     textAlign:'center'
+  },
+  logo: {
+    marginVertical: 0.02*height
   },
   loader: {
     backgroundColor: "rgba(0, 0, 0, 0.2)",
@@ -142,23 +137,22 @@ class Login extends Component<{}> {
 				{(loginUser && loginUser.isLoading) && <View style={styles.loader}>
 					<ActivityIndicator color="#ffffff" size="large" />
 					</View>}
-				<Logo/>
-				<Field
-					name="email"
-					placeholder="Email"
-					component={this.renderTextInput} />
-				<Field
-					name="password"
-					placeholder="Password"
-					secureTextEntry={true}
-					component={this.renderTextInput} />
-				<TouchableOpacity style={styles.button} onPress={handleSubmit(this.onSubmit)}>
-				  <Text style={styles.buttonText}>Sign in</Text>
-				</TouchableOpacity>
-				<View style={styles.signupTextCont}>
-					<Text style={styles.signupText}>Don't have an account? </Text>
-					<TouchableOpacity onPress={this.signup}><Text style={styles.signupButton}>Register</Text></TouchableOpacity>
-				</View>
+                
+              <View style={styles.logo}>
+                <Logo/>
+              </View>
+              <Text style={styles.inputLabel}>Correo electrónico</Text>
+			  <Field
+			    	name="email"
+				    component={this.renderTextInput} />
+              <Text style={styles.inputLabel}>Password</Text>
+			  <Field
+			    	name="password"
+			        secureTextEntry={true}
+				    component={this.renderTextInput} />
+			  <TouchableOpacity style={styles.button} onPress={handleSubmit(this.onSubmit)}>
+			    <Text style={styles.buttonText}>Acceder</Text>
+			  </TouchableOpacity>
 			</View>
 		)
 	}

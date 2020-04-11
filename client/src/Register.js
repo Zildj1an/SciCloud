@@ -9,7 +9,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
-  Alert
+  Alert,
+  Dimensions
 } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
@@ -20,24 +21,40 @@ import {Actions} from 'react-native-router-flux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
+const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-	backgroundColor:'#3399ff',
+	backgroundColor: '#3399ff',
 	alignItems:'center',
     justifyContent :'center'
+  },
+  nameContainer: {
+    flexDirection: 'row',
+    width: 0.8*width,
+    marginHorizontal:0.1*width,
+  },
+  inputLabel: {
+    width: 0.8*width,
+    marginHorizontal:0.1*width,
+    fontSize: 20
   },
   scrollView : {
     backgroundColor:'#3399ff',
   },
+  textInputName: {
+    width: 'auto',
+    marginHorizontal: 0
+  },
   textInputCont: {
-    width:300,
+    width: 0.8*width,
     backgroundColor:'rgba(255, 255,255,0.2)',
-    borderRadius: 25,
-    paddingHorizontal:16,
+    borderRadius: 10,
+    paddingVertical: 4,
     fontSize:16,
     color:'#ffffff',
-    marginVertical: 10,
+    marginHorizontal:0.1*width,
+    marginBottom: 10
   },
   signupTextCont: {
   	flexGrow: 1,
@@ -46,36 +63,16 @@ const styles = StyleSheet.create({
     paddingVertical:16,
     flexDirection:'row'
   },
-  signupText: {
-  	color:'rgba(255,255,255,0.6)',
-  	fontSize:16
-  },
-  signupButton: {
-  	color:'#ffffff',
-  	fontSize:16,
-  	fontWeight:'500'
-  },
-  buttonDate: {
-    width:300,
-    backgroundColor:'rgba(255, 255,255,0.2)',
-    borderRadius: 25,
-    marginVertical: 10,
-    paddingVertical: 13,
-	paddingHorizontal:16,
-  },
-  buttonTextDate: {
-    fontSize:16,
-    color:'rgba(255,255,255,0.8)',
-  },
   button: {
-    width:300,
+    width: 0.33*width,
     backgroundColor:'#1c313a',
-    borderRadius: 25,
-    marginVertical: 10,
-    paddingVertical: 13
+    borderRadius: 10,
+    marginVertical: 0.08*height,
+    marginHorizontal: 0.33*width,
+    paddingVertical: 10
   },
   buttonText: {
-    fontSize:16,
+    fontSize:13,
     fontWeight:'500',
     color:'#ffffff',
     textAlign:'center'
@@ -102,6 +99,9 @@ const styles = StyleSheet.create({
     fontSize:16,
     color:'#ffffff',
     marginVertical: 10
+  },
+  logo: {
+    transform: [{scale: 0.7}]
   }
 });
 
@@ -189,10 +189,11 @@ class Register extends React.Component<{}> {
 	};
 
 	renderTextInput = (field) => {
-        const {meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, ...restInput}} = field;
+        const {meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, name, ...restInput}} = field;
         return (
             <View>
-              <TextInput style={styles.textInputCont}
+              <TextInput style={[styles.textInputCont,
+                ['name', 'surname'].includes(name) ? styles.textInputName : {}]}
                   onChangeText={onChange}
                   maxLength={maxLength}
                   placeholder={placeholder}
@@ -210,59 +211,58 @@ class Register extends React.Component<{}> {
     const { handleSubmit, createUser} = this.props;
 		return(
 			<SafeAreaView style={styles.container}>
+              <View style={styles.logo}>
 				<Logo/>
+              </View>
 				{createUser.isLoading && <View style={styles.loader}>
 					<ActivityIndicator color="#ffffff" size="large" />
 					</View>}
 				<ScrollView  style={styles.scrollView}>
 					
-					<Field
+                  <View style={styles.nameContainer}>
+                    <View style={{ flex: 2 }}>
+                      <Text style={[styles.inputLabel,styles.textInputName]}>Nombre</Text>
+					  <Field
 						name="name"
-						placeholder="Name"
 						component={this.renderTextInput} />
-					<Field
-						name="surname1"
-						placeholder="Surname 1"
+                    </View>
+                    <View style={{ flex: 3 }}>
+                      <Text style={[styles.inputLabel,styles.textInputName]}>Apellidos</Text>
+					  <Field
+						name="surname"
 						component={this.renderTextInput} />
-					<Field
-						name="surname2"
-						placeholder="Surname 2"
-						component={this.renderTextInput} />
+                    </View>
+                  </View>
+                    <Text style={styles.inputLabel}>Correo</Text>
 					<Field
 						name="email"
-						placeholder="Email"
 						component={this.renderTextInput} />
-					<TouchableOpacity style={styles.buttonDate} onPress={this.showPicker}>
-						<Text style={styles.buttonTextDate}>{this.state.chosenDate}</Text>
-					</TouchableOpacity>
-					{this.state.visible && <DateTimePicker
-						value={new Date()}
-						onChange={this.setDate}
-						mode={'date'}
-					/>}
-					<Field
-						name="phone"
-						keyboardType="number-pad"
-						placeholder="Phone"
-						component={this.renderTextInput} />
+                    <Text style={styles.inputLabel}>Contraseña</Text>
 					<Field
 						name="password"
-						placeholder="Password"
 						secureTextEntry={true}
 						component={this.renderTextInput} />
+                    <Text style={styles.inputLabel}>Confirmar contraseña</Text>
 					<Field
 						name="cPassword"
-						placeholder="Confirm password"
 						secureTextEntry={true}
 						component={this.renderTextInput} />
+                    <Text style={styles.inputLabel}>Ocupación</Text>
+					<Field
+						name="occupation"
+						component={this.renderTextInput} />
+                    <Text style={styles.inputLabel}>Especialidad</Text>
+					<Field
+						name="field"
+						component={this.renderTextInput} />
+                    <Text style={styles.inputLabel}>Otras especialidades</Text>
+					<Field
+						name="other_fields"
+						component={this.renderTextInput} />
 					<TouchableOpacity style={styles.button} onPress={handleSubmit(this.onSubmit)}>
-						<Text style={styles.buttonText}>Sign up</Text>
+						<Text style={styles.buttonText}>Registrarme</Text>
 					</TouchableOpacity>
-					<View style={styles.signupTextCont}>
-						<Text style={styles.signupText}>Already registered? </Text>
-						<TouchableOpacity onPress={this.goBack}><Text style={styles.signupButton}>Login</Text></TouchableOpacity>
-					</View>
-				</ScrollView >
+				</ScrollView>
 			</SafeAreaView>
 		)
 	}

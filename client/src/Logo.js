@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Image 
+  Image,
+  Dimension
 } from 'react-native';
 
 export default class Logo extends Component<{}> {
@@ -20,9 +21,8 @@ export default class Logo extends Component<{}> {
 
 const styles = StyleSheet.create({
   container : {
-    flexGrow: 1,
     justifyContent:'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   logoText : {
   	marginVertical: 15,
