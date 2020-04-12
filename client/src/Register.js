@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     width: 0.8*width,
     backgroundColor:'rgba(255, 255,255,0.2)',
     borderRadius: 10,
-    paddingVertical: 4,
+    paddingVertical: 2,
     fontSize:16,
     color:'#ffffff',
     marginHorizontal:0.1*width,
@@ -101,7 +101,9 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   logo: {
-    transform: [{scale: 0.7}]
+    transform: [{scale: 0.6}],
+    marginTop: -20,
+    marginBottom: -40
   }
 });
 
@@ -193,7 +195,8 @@ class Register extends React.Component<{}> {
         return (
             <View>
               <TextInput style={[styles.textInputCont,
-                ['name', 'surname'].includes(name) ? styles.textInputName : {}]}
+                ['name', 'surname'].includes(name) ? styles.textInputName : {},
+                name == 'name' ? {marginRight: 0.03*width} : {}]}
                   onChangeText={onChange}
                   maxLength={maxLength}
                   placeholder={placeholder}
