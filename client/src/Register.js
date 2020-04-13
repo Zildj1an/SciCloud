@@ -214,28 +214,28 @@ class Register extends React.Component<{}> {
     const { handleSubmit, createUser} = this.props;
 		return(
 			<SafeAreaView style={styles.container}>
-              <View style={styles.logo}>
-				<Logo/>
-              </View>
+                <View style={styles.logo}>
+					<Logo/>
+                </View>
 				{createUser.isLoading && <View style={styles.loader}>
 					<ActivityIndicator color="#ffffff" size="large" />
 					</View>}
 				<ScrollView  style={styles.scrollView}>
 					
-                  <View style={styles.nameContainer}>
-                    <View style={{ flex: 2 }}>
-                      <Text style={[styles.inputLabel,styles.textInputName]}>Nombre</Text>
-					  <Field
-						name="name"
-						component={this.renderTextInput} />
-                    </View>
-                    <View style={{ flex: 3 }}>
-                      <Text style={[styles.inputLabel,styles.textInputName]}>Apellidos</Text>
-					  <Field
-						name="surname"
-						component={this.renderTextInput} />
-                    </View>
-                  </View>
+					<View style={styles.nameContainer}>
+						<View style={{ flex: 2 }}>
+							<Text style={[styles.inputLabel,styles.textInputName]}>Nombre</Text>
+							<Field
+								name="name"
+								component={this.renderTextInput} />
+						</View>
+						<View style={{ flex: 3 }}>
+							<Text style={[styles.inputLabel,styles.textInputName]}>Apellidos</Text>
+							<Field
+								name="surname"
+								component={this.renderTextInput} />
+						</View>
+					</View>
                     <Text style={styles.inputLabel}>Correo</Text>
 					<Field
 						name="email"

@@ -9,7 +9,7 @@ import {
 import {connect} from "react-redux";
 import Logo from './Logo.js';
 import {Actions} from 'react-native-router-flux';
-import styles from './Styles'
+import cstyles from './Styles'
 
 /*
 const styles = StyleSheet.create({
@@ -48,14 +48,14 @@ class Start extends React.Component<{}> {
 
 	render() {
 		return(
-			<View style={styles.container}>
+			<View style={[cstyles.container, {justifyContent :'center'}]}>
 				<Logo/>
-				<TouchableOpacity style={styles.button} onPress={ Actions.login }>
-					<Text style={styles.buttonText}>Iniciar sesión</Text>
+				<TouchableOpacity style={cstyles.button} onPress={ Actions.login }>
+					<Text style={cstyles.buttonText}>Iniciar sesión</Text>
 				</TouchableOpacity>
-				<View style={styles.signupTextCont}>
+				<View style={cstyles.signupTextCont}>
                   <TouchableOpacity onPress={ Actions.signup }>
-                    <Text style={styles.signupButton}>Registrarse</Text>
+                    <Text style={cstyles.signupButton}>Registrarse</Text>
                   </TouchableOpacity>
 				</View>
 			</View>

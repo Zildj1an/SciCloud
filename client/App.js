@@ -3,7 +3,7 @@ import {StyleSheet, View, StatusBar} from 'react-native';
 import {Provider} from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react'
 
-import Home from "./src/Home.js";
+import Init from "./src/Init.js";
 import persist from "./src/Store.js";
 
 const persistStore = persist();
@@ -13,7 +13,7 @@ export default class App extends Component<Props> {
     return (
       <Provider store={persistStore.store}>
         <PersistGate loading={null} persistor={persistStore.persistor}>
-          <Home />
+          <Init />
         </PersistGate>
       </Provider>
     );
