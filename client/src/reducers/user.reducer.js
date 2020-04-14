@@ -28,7 +28,6 @@ const getUser = (state = {}, action) => {
         userDetails: null,
         errors: action.payload
       }
-
     default:
       return state
   }

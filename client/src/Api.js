@@ -128,14 +128,16 @@ export const loginUser = (payload) => {
       })
       const response = await fetchApi('/login', 'POST', payload, 200)
 
-      if (response.success) {
+      if (response.success && response.responseBody.token) {
         dispatch({
           type: 'LOGIN_USER_SUCCESS'
         })
         dispatch({
           type: 'AUTH_USER_SUCCESS',
           token: response.responseBody.token,
-          user: response.responseBody.data[0]
+          user: response.responseBody.data.length ? 
+            response.responseBody.data[0] :
+            response.responseBody.data
         })
         return response
       } else {
@@ -146,7 +148,7 @@ export const loginUser = (payload) => {
         type: 'LOGIN_USER_FAIL',
         payload: error.responseBody
       })
-      return error
+      return { ...error, success: false }
     }
   }
 }
@@ -157,8 +159,6 @@ export const logoutUser = () => {
     try {
       const { authReducer: { authData: { token } } } = state
       console.log(token)
-      //const response = await fetchApi('/profile', 'DELETE', null, 200, token)
-      //console.log(response)
       dispatch({
         type: 'USER_LOGGED_OUT_SUCCESS'
       })
@@ -175,9 +175,8 @@ export const getUser = () => {
       dispatch({
         type: 'LOGIN_USER_LOADING'
       })
-      console.log('API: Attepmting to get user...')
       const { authReducer: { authData: { token, user: { _id } } } } = state
-      const id = "5e6e1616197d130004a0acc4"
+      console.log('API: Attepmting to get user ' + _id)
       const response = await fetchApi('/users/' + _id, 'GET', null, 200, token)
       console.log(response)
       console.log(response.responseBody.data)

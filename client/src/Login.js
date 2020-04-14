@@ -76,10 +76,6 @@ const styles = StyleSheet.create({
 
 class Login extends Component<{}> {
 
-	signup() {
-		Actions.signup()
-	}
-
 	loginUser = async (values) => {
 		try {
 			const response =  await this.props.dispatch(loginUser(values));
@@ -87,6 +83,7 @@ class Login extends Component<{}> {
 			if (!response.success) {
 				throw response;
 			}
+            Actions.reset("app")
 		} catch (error) {
 			let errorText;
 			if (error.message) {
@@ -131,6 +128,7 @@ class Login extends Component<{}> {
 
 	render() {
     const { handleSubmit, loginUser} = this.props;
+    // this.props.dispatch({type:"USER_LOGGED_OUT_SUCCESSFUL"})
     //console.log(loginUser);
 		return(
 			<View style={styles.container}>
