@@ -113,16 +113,16 @@ class Register extends React.Component<{}> {
 		super()
 		this.state = {
 			RegisterParams: {
-				email: '',
-				password: '',
-				birthdate: '',
-				phone: '',
 				name: '',
 				surname1: '',
-				surname2: ''
+				surname2: '',
+				email: '',
+				password: '',
+                job: '',
+                field: '',
+                subfield: ''
 			},
 			visible: false,
-			chosenDate: 'Birthday'
 		}
 	}
 	
@@ -131,21 +131,29 @@ class Register extends React.Component<{}> {
 	}
 	
 	registerUser = async (values) => {
-		this.setState({
-			RegisterParams: { ...this.state.RegisterParams,
-				email: values.email,
-				password: values.password,
-				birthdate: this.state.chosenDate,
-				phone: values.phone,
-				name: values.name,
-				surname1: values.surname1,
-				surname2: values.surname2}
-		})
+        console.log(values)
+		const RegisterParams = { ...this.state.RegisterParams,
+			name: values.name,
+			surname1: values.surname ? 
+              values.surname.split(' ')[0] : null,
+            surname2: values.surname ?
+              values.surname.split(' ').slice(1).join(' ') : null,
+			email: values.email,
+			password: values.password,
+            job: values.job,
+            field: values.field,
+            subfield: values.subfield
+        }
+		this.setState({RegisterParams: RegisterParams})
 		try {
-			const response =  await this.props.dispatch(createUser(this.state.RegisterParams));
+            console.log(RegisterParams)
+			const response =  await this.props.dispatch(createUser(RegisterParams));
 			if (!response.success) {
 				throw response;
 			}
+			Alert.alert(
+			  'Registrado correctamemte',
+			);
 		} catch (error) {
 			let errorText = "Something went wrong";
 			if (error.message) {
@@ -172,23 +180,6 @@ class Register extends React.Component<{}> {
 	onSubmit = (values) => {
 		this.registerUser(values);
 	}
-	
-	showPicker = () => {
-		this.setState({
-			visible: !this.state.visible
-		})
-	}
-	
-	setDate = (event, date) => {
-		this.setState({
-			visible: false
-		})
-		if (date != undefined) {
-			this.setState({
-				chosenDate: moment(date).format('YYYY-MM-DD')
-			})
-		}
-	};
 
 	renderTextInput = (field) => {
         const {meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, name, ...restInput}} = field;
@@ -204,6 +195,7 @@ class Register extends React.Component<{}> {
                   keyboardType={keyboardType}
                   secureTextEntry={secureTextEntry}
                   label={label}
+                  name={name}
                   {...restInput} />
             {(touched && error) && <Text style={styles.errorText}>{error}</Text>}
             </View>
@@ -252,7 +244,7 @@ class Register extends React.Component<{}> {
 						component={this.renderTextInput} />
                     <Text style={styles.inputLabel}>Ocupación</Text>
 					<Field
-						name="occupation"
+						name="job"
 						component={this.renderTextInput} />
                     <Text style={styles.inputLabel}>Especialidad</Text>
 					<Field
@@ -260,7 +252,7 @@ class Register extends React.Component<{}> {
 						component={this.renderTextInput} />
                     <Text style={styles.inputLabel}>Otras especialidades</Text>
 					<Field
-						name="other_fields"
+						name="subfield"
 						component={this.renderTextInput} />
 					<TouchableOpacity style={styles.button} onPress={handleSubmit(this.onSubmit)}>
 						<Text style={styles.buttonText}>Registrarme</Text>
@@ -276,25 +268,25 @@ const validate = (values) => {
     if(!values.name) {
         errors.name = "Required"
     }
-    //if(!values.surname1) {
-    //    errors.surname1 = "Required"
-    //}
-	//if(!values.surname2) {
-    //    errors.surname2 = "Required"
-    //}
+    if(!values.surname) {
+        errors.surname = "Required"
+    }
+    if(values.surname && values.surname.split(' ').length < 2) {
+        errors.surname = "Introduce los dos apellidos"
+    }
     if(!values.email) {
         errors.email = "Required"
     }
 	if(!values.password) {
         errors.password = "Required"
     }
-	//var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-	//if(!re.test(values.password)) {
-    //    errors.password = "Must contain at least one number and\nuppercase and lowercase letter, and at\nleast 8 or more characters"
-    //}
-	//if(values.password !== values.cPassword) {
-    //    errors.cPassword = "Passwords do not match"
-    //}
+	var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+	if(!re.test(values.password)) {
+        errors.password = "Must contain at least one number and\nuppercase and lowercase letter, and at\nleast 8 or more characters"
+    }
+	if(values.password !== values.cPassword) {
+        errors.cPassword = "Passwords do not match"
+    }
     return errors;
 };
 

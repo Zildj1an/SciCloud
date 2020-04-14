@@ -1,9 +1,12 @@
 const API = 'https://scicloud-apirest.herokuapp.com/api'
 
-export const api = async (url, method, body = null, headers = {}) => {
+export const api = async (url, method, body = null, params = null, headers = {}) => {
   try {
-    const endPoint = API.concat(url)
     const reqBody = body ? JSON.stringify(body) : null
+    const reqParams = params ? Object.keys(params).map(
+      key => key + '=' + encodeURIComponent(params[key])).join('&') : null
+    const endPoint = reqParams ? API.concat(url).concat('?' + reqParams) :
+      API.concat(url)
 
     const fetchParams = { method, headers }
 
@@ -18,6 +21,8 @@ export const api = async (url, method, body = null, headers = {}) => {
       fetchParams.cache = 'default'
       fetchParams.body = reqBody
     }
+
+    console.log(fetchParams)
 
     const fetchPromise = fetch(endPoint, fetchParams)
     const timeOutPromise = new Promise((resolve, reject) => {
@@ -34,7 +39,7 @@ export const api = async (url, method, body = null, headers = {}) => {
   }
 }
 
-export const fetchApi = async (url, method, body, statusCode, token = null, loader = false) => {
+export const fetchApi = async (url, method, body, statusCode, token = null, params = null, loader = false) => {
   try {
     const headers = {}
     const result = {
@@ -43,34 +48,29 @@ export const fetchApi = async (url, method, body, statusCode, token = null, load
       responseBody: null
     }
     if (token) {
-      headers['x-auth'] = token
+      headers.Authorization = `Bearer ${token}`
     }
 
-    const response = await api(url, method, body, headers)
-
-    console.log(response)
+    const response = await api(url, method, body, params, headers)
 
     if (response.status === statusCode) {
       result.success = true
-
-      if (response.headers.get('x-auth')) {
-        result.token = response.headers.get('x-auth')
-      }
 
       let responseBody
       const responseText = await response.text()
 
       try {
         responseBody = JSON.parse(responseText)
+        result.token = responseBody.token
       } catch (e) {
         responseBody = responseText
       }
 
       result.responseBody = responseBody
+
       return result
     } else if (response.status === 503) {
       result.responseBody = 'Application Error'
-      console.log(result)
       throw result
     }
 
@@ -85,7 +85,7 @@ export const fetchApi = async (url, method, body, statusCode, token = null, load
 
     result.responseBody = errorBody
 
-    console.log(result)
+    console.log(`API: result: ${JSON.stringify(result)}`)
 
     throw result
   } catch (error) {
@@ -99,21 +99,13 @@ export const createUser = (payload) => {
       dispatch({
         type: 'CREATE_USER_LOADING'
       })
+      console.log(payload)
       const response = await fetchApi('/users', 'POST', payload, 200)
 
       if (response.success) {
         dispatch({
           type: 'CREATE_USER_SUCCESS'
         })
-        dispatch({
-          type: 'AUTH_USER_SUCCESS',
-          token: response.token
-        })
-        dispatch({
-          type: 'GET_USER_SUCCESS',
-          payload: response.responseBody
-        })
-
         return response
       } else {
         throw response
@@ -134,7 +126,7 @@ export const loginUser = (payload) => {
       dispatch({
         type: 'LOGIN_USER_LOADING'
       })
-      const response = await fetchApi('/users/login', 'POST', payload, 200)
+      const response = await fetchApi('/login', 'POST', payload, 200)
 
       if (response.success) {
         dispatch({
@@ -142,11 +134,8 @@ export const loginUser = (payload) => {
         })
         dispatch({
           type: 'AUTH_USER_SUCCESS',
-          token: response.token
-        })
-        dispatch({
-          type: 'GET_USER_SUCCESS',
-          payload: response.responseBody
+          token: response.responseBody.token,
+          user: response.responseBody.data[0]
         })
         return response
       } else {
@@ -168,13 +157,40 @@ export const logoutUser = () => {
     try {
       const { authReducer: { authData: { token } } } = state
       console.log(token)
-      const response = await fetchApi('/profile', 'DELETE', null, 200, token)
-      console.log(response)
+      //const response = await fetchApi('/profile', 'DELETE', null, 200, token)
+      //console.log(response)
       dispatch({
         type: 'USER_LOGGED_OUT_SUCCESS'
       })
     } catch (e) {
       console.log(e)
+    }
+  }
+}
+
+export const getUser = () => {
+  return async (dispatch, getState) => {
+    const state = getState()
+    try {
+      dispatch({
+        type: 'LOGIN_USER_LOADING'
+      })
+      console.log('API: Attepmting to get user...')
+      const { authReducer: { authData: { token, user: { _id } } } } = state
+      const id = "5e6e1616197d130004a0acc4"
+      const response = await fetchApi('/users/' + _id, 'GET', null, 200, token)
+      console.log(response)
+      console.log(response.responseBody.data)
+      dispatch({
+        type: 'GET_USER_SUCCESS',
+        payload: response.responseBody.data
+      })
+    } catch (e) {
+      console.log(e)
+      dispatch({
+        type: 'GET_USER_FAILURE',
+        payload: e
+      })
     }
   }
 }

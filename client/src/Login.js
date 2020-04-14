@@ -92,7 +92,7 @@ class Login extends Component<{}> {
 			if (error.message) {
 				errorText = error.message
 			}
-			errorText = error.responseBody;
+			errorText = error.responseBody.message;
 			Alert.alert(
 				'Login Error',
 				errorText,
@@ -131,7 +131,7 @@ class Login extends Component<{}> {
 
 	render() {
     const { handleSubmit, loginUser} = this.props;
-    console.log(loginUser);
+    //console.log(loginUser);
 		return(
 			<View style={styles.container}>
 				{(loginUser && loginUser.isLoading) && <View style={styles.loader}>

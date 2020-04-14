@@ -5,13 +5,15 @@ const authData = (state = {}, action) => {
     case 'AUTH_USER_SUCCESS':
       return {
         token: action.token,
-        isLoggedIn: true
+        isLoggedIn: true,
+        user: action.user
       }
 
     case 'AUTH_USER_FAIL':
       return {
         token: null,
-        isLoggedIn: false
+        isLoggedIn: false,
+        user: null
       }
     default:
       return state

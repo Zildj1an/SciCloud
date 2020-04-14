@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import {connect} from "react-redux";
 
-import {logoutUser} from "./Api.js";
+import {logoutUser, getUser} from "./Api.js";
 
 const styles = StyleSheet.create({
   container : {
@@ -52,6 +52,15 @@ const styles = StyleSheet.create({
 
 class Profile extends Component<{}> {
 	
+    getUser = async () => {
+        await this.props.dispatch(getUser());
+    }
+
+    componentDidMount () {
+        console.log('Profile: Attepmting to get user...')
+        this.getUser()
+    }
+
 	logoutUser = () => {
 		this.props.dispatch(logoutUser());
 	}
@@ -67,8 +76,9 @@ class Profile extends Component<{}> {
 					<Text style={styles.textStyle}>Surname 2: {userDetails ? userDetails.surname2 : ""}</Text>
 					<Text style={styles.textStyle}>Email: {userDetails ? userDetails.email : ""}</Text>
 					<Text style={styles.textStyle}>Password: {userDetails ? userDetails.password : ""}</Text>
-					<Text style={styles.textStyle}>Phone: {userDetails ? userDetails.phone : ""}</Text>
-					<Text style={styles.textStyle}>Birthdate: {userDetails ? userDetails.birthdate : ""}</Text>
+					<Text style={styles.textStyle}>Job: {userDetails ? userDetails.job : ""}</Text>
+					<Text style={styles.textStyle}>Field: {userDetails ? userDetails.field : ""}</Text>
+					<Text style={styles.textStyle}>Subfield: {userDetails ? userDetails.subfield : ""}</Text>
 				</View>
 				<TouchableOpacity style={styles.button} onPress={this.logoutUser}>
 					<Text style={styles.buttonText}>Sign out</Text>
