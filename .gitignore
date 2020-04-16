@@ -1,2 +1,4 @@
 client/android
 client/node_modules
+client/.eslintrc.yml
+client/package-lock.json
