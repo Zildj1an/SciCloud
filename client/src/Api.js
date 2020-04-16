@@ -193,3 +193,59 @@ export const getUser = () => {
     }
   }
 }
+
+export const getPublications = () => {
+  return async (dispatch, getState) => {
+    const state = getState()
+    try {
+      dispatch({
+        type: 'GET_PUBLIS_LOADING'
+      })
+      const { authReducer: { authData: { token } } } = state
+      console.log('API: Attepmting to get publications')
+      const response = await fetchApi('/publications', 'GET', null, 200, token)
+      console.log(response)
+      if (response.success && response.responseBody.data) {
+        dispatch({
+          type: 'GET_PUBLIS_SUCCESS',
+          payload: response.responseBody.data
+        })
+      }
+      throw response
+    } catch (e) {
+      console.log(e)
+      dispatch({
+        type: 'GET_PUBLIS_FAILURE',
+        payload: e
+      })
+    }
+  }
+}
+
+export const getProfiles = () => {
+  return async (dispatch, getState) => {
+    const state = getState()
+    try {
+      dispatch({
+        type: 'GET_PROFILES_LOADING'
+      })
+      const { authReducer: { authData: { token } } } = state
+      console.log('API: Attepmting to get profiles')
+      const response = await fetchApi('/users', 'GET', null, 200, token)
+      console.log(response)
+      if (response.success && response.responseBody.data) {
+        dispatch({
+          type: 'GET_PROFILES_SUCCESS',
+          payload: response.responseBody.data
+        })
+      }
+      throw response
+    } catch (e) {
+      console.log(e)
+      dispatch({
+        type: 'GET_PROFILES_FAILURE',
+        payload: e
+      })
+    }
+  }
+}

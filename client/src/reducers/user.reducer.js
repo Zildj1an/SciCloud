@@ -33,6 +33,40 @@ const getUser = (state = {}, action) => {
   }
 }
 
+const getProfiles = (state = {}, action) => {
+  switch (action.type) {
+    case 'GET_PROFILES_LOADING':
+      return {
+        isLoading: true,
+        isError: false,
+        isSuccess: false,
+        profList: null,
+        errors: null
+      }
+
+    case 'GET_PROFILES_SUCCESS':
+      return {
+        isLoading: false,
+        isError: false,
+        isSuccess: true,
+        profList: action.payload,
+        errors: null
+      }
+
+    case 'GET_PROFILES_FAIL':
+      return {
+        isLoading: false,
+        isError: true,
+        isSuccess: false,
+        profList: null,
+        errors: action.payload
+      }
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
-  getUser
+  getUser,
+  getProfiles
 })
