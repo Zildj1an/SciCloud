@@ -1,5 +1,13 @@
+/*
+ *  API calls
+ */
+
 const API = 'https://scicloud-apirest.herokuapp.com/api'
 
+/*
+ * Make a generic HTTP api request, encoding the parameters.
+ * Returns a response or timeout.
+ */
 export const api = async (url, method, body = null, params = null, headers = {}) => {
   try {
     const reqBody = body ? JSON.stringify(body) : null
@@ -22,6 +30,7 @@ export const api = async (url, method, body = null, params = null, headers = {})
       fetchParams.body = reqBody
     }
 
+    console.log("API fetch parameters:")
     console.log(fetchParams)
 
     const fetchPromise = fetch(endPoint, fetchParams)
@@ -39,6 +48,10 @@ export const api = async (url, method, body = null, params = null, headers = {})
   }
 }
 
+/*
+ * Make an API call, managing headers and authentication.
+ * Returns an 'result' object containing a token, a success code, and the response body
+ */
 export const fetchApi = async (url, method, body, statusCode, token = null, params = null, loader = false) => {
   try {
     const headers = {}
@@ -74,6 +87,8 @@ export const fetchApi = async (url, method, body, statusCode, token = null, para
       throw result
     }
 
+    // Error handling: log and return error
+
     let errorBody
     const errorText = await response.text()
 
@@ -85,7 +100,7 @@ export const fetchApi = async (url, method, body, statusCode, token = null, para
 
     result.responseBody = errorBody
 
-    console.log(`API: result: ${JSON.stringify(result)}`)
+    console.log(`API: Error result: ${JSON.stringify(result)}`)
 
     throw result
   } catch (error) {
@@ -135,9 +150,10 @@ export const loginUser = (payload) => {
         dispatch({
           type: 'AUTH_USER_SUCCESS',
           token: response.responseBody.token,
-          user: response.responseBody.data.length ? 
-            response.responseBody.data[0] :
-            response.responseBody.data
+          // The server can return more than one user
+          user: response.responseBody.data.length
+            ? response.responseBody.data[0]
+            : response.responseBody.data
         })
         return response
       } else {
@@ -153,6 +169,7 @@ export const loginUser = (payload) => {
   }
 }
 
+// Note: there's no api endpoint for logout yet, so this is client-only.
 export const logoutUser = () => {
   return async (dispatch, getState) => {
     const state = getState()
